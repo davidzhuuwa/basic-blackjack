@@ -61,25 +61,25 @@ for i in range(0,2):
     computer_cards.append(new_card)
     i+=1
 
-user_score = sum(user_cards)
-computer_score = sum(computer_cards)
-
 # Check if the computer has blackjack
-if user_score == 21:
+if computer_score == 21:
     print('The dealer has blackjack! You lose!')
-elif computer_score == 21: 
+    game_state = False
+elif user_score == 21: 
     print('You have blackjack while the computer does not! You Win!')
+    game_state = False
 
 # Simulating the user's turn first
 user_turn = True
-while user_turn:
+while user_turn and game_state:
     print(f'Your score: {user_score}.')
-    print(f'Computer score: {computer_score}.')
+    print(f'Your hand: {user_cards}.')
+    print(f'Computer hand: {computer_cards[0]}')
     choice = input('Hit, or stand?: ').lower()
 
     if choice == 'hit':
         new_card = deal_card() 
-        user_score_updated,new_card,game_state = update_score(user_score,new_card,game_state)
+        user_score,new_card,game_state = update_score(user_score,new_card,game_state)
         user_cards.append(new_card)
     elif choice == 'stand':
         user_turn = False
@@ -94,7 +94,7 @@ while user_turn:
 # Soft 16 is when the computer has 16 or over with an ace.
 while computer_score < 16:
     new_card = deal_card()
-    computer_score_updated,new_card,game_state = update_score(computer_score,new_card,game_state)
+    computer_score,new_card,game_state = update_score(computer_score,new_card,game_state)
     computer_cards.append(new_card)
     
     # Checking if computer busted
